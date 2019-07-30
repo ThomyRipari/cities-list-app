@@ -7,12 +7,12 @@ import City from './components/Cities/City';
 import AddCity from './components/AddCity/AddCity';
 
 const citiesNavigator = createStackNavigator({
-	city: { screen: City },
-	cities: { screen: Cities }
+	Cities: { screen: Cities },
+	City: { screen: City }
 }, {
 	defaultNavigationOptions: {
 		headerStyle: {
-			backgroundColor: '#deac21',
+			backgroundColor: '#e8075d'
 		},
 		headerTintColor: '#fff'
 	}
@@ -26,9 +26,21 @@ const Tabs = createAppContainer(
 )
 
 export default class App extends Component {
+	state = {
+		cities: []
+	}
+
+	addCity = (city) => {
+		const { cities } = this.state;
+
+		cities.push(city);
+
+		this.setState({cities});
+	}
+
 	render() {
 		return (
-			<Tabs />
+			<Tabs screenProps={{cities: this.state.cities, addCity: this.addCity}} />
 		)
 	}
 }
