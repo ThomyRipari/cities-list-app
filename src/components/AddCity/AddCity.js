@@ -20,7 +20,7 @@ export default class AddCity extends Component {
 		const city = {
 			city: this.state.city,
 			country: this.state.country,
-			location: [],
+			locations: [],
 			id: uuidV4()
 		}
 
@@ -33,7 +33,6 @@ export default class AddCity extends Component {
 	}
 
 	render() {
-		console.log(this.props);
 		return (
 			<View style={styles.container}>
 				<Text style={styles.heading}>Cities List App</Text>

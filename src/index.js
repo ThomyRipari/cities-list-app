@@ -38,9 +38,13 @@ export default class App extends Component {
 		this.setState({cities});
 	}
 
+	addLocation = (location, city) => {
+		// add location
+	}
+
 	render() {
 		return (
-			<Tabs screenProps={{cities: this.state.cities, addCity: this.addCity}} />
+			<Tabs screenProps={{cities: this.state.cities, addCity: this.addCity, addLocation: this.addLocation}} />
 		)
 	}
 }
