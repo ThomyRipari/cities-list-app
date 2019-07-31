@@ -26,7 +26,7 @@ export default class AddCity extends Component {
 
 		this.props.screenProps.addCity(city)
 
-		this.setState({city: '', country: '',}, () => { 
+		this.setState({city: '', country: ''}, () => { 
 			this.props.navigation.navigate('Cities')
 		})
 
@@ -37,13 +37,13 @@ export default class AddCity extends Component {
 			<View style={styles.container}>
 				<Text style={styles.heading}>Cities List App</Text>
 				<TextInput 
-					state={this.state.city}
+					value={this.state.city}
 					style={styles.input}
 					placeholder="City name"
 					onChangeText={text => this.onChangeText('city', text)} 
 				/>
 				<TextInput
-					state={this.state.country}
+					value={this.state.country}
 					style={styles.input}
 					placeholder="Country name"
 					onChangeText={text => this.onChangeText('country', text)} 

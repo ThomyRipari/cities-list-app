@@ -21,7 +21,7 @@ const citiesNavigator = createStackNavigator({
 
 const Tabs = createAppContainer(
 	createBottomTabNavigator({
-		Cities: { screen: citiesNavigator },
+		CitiesStack: { screen: citiesNavigator },
 		AddCity: { screen: AddCity }
 	})
 )

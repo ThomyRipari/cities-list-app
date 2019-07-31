@@ -62,14 +62,14 @@ export default class City extends Component {
 				))}
 				<TextInput
 					placeholder="Add Location Name"
-					state={this.state.name}
+					value={this.state.name}
 					style={styles.input}
 					placeholderTextColor='white'
 					onChangeText={text => this.onChangeText('name', text)}
 				/>
 				<TextInput
 					placeholder="Add Location Description"
-					state={this.state.description}
+					value={this.state.description}
 					style={[styles.input, styles.input2]}
 					placeholderTextColor='white'
 					onChangeText={text => this.onChangeText('description', text)}
