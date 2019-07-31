@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 
+/* Import Components */
+import CenterMessage from '../messages/CenterMessage';
+
 export default class Cities extends Component {
 	static navigationOptions = {
 		title: 'Cities',
@@ -22,7 +25,8 @@ export default class Cities extends Component {
 		return (
 			<ScrollView>
 				<View>
-					
+					{!this.props.screenProps.cities.length ? <CenterMessage message="You have not added cities" /> : null}
+
 					{this.props.screenProps.cities.map((city, index) => (
 						<View key={index}>
 							<TouchableWithoutFeedback onPress={() => this.viewCity(city)}>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { AsyncStorage } from 'react-native';
 import { createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation';
 
 /* Import Components */
@@ -30,10 +31,27 @@ export default class App extends Component {
 		cities: []
 	}
 
+	async componentDidMount() {
+		try {
+			const cities = await AsyncStorage.getItem('cities');
+			console.log(cities);
+			this.setState({
+				cities: JSON.parse(cities) || []
+			})
+		} catch (e) {
+			console.log('error: ', e);
+		}
+	}
+
 	addCity = (city) => {
 		const { cities } = this.state;
 
 		cities.push(city);
+
+		AsyncStorage.setItem('cities', JSON.stringify(cities))
+
+		.then(() => console.log('CITIES STORED'))
+		.catch(error => console.log('error: ', error))
 
 		this.setState({cities});
 	}
@@ -51,7 +69,10 @@ export default class App extends Component {
 		]
 
 		this.setState({cities}, () => {
-			console.log('added location')
+			AsyncStorage.setItem('cities', JSON.stringify(cities))
+
+			.then(() => console.log('CITIES WITH NEW LOCATIONS STORED'))
+			.catch(error => console.log('error: ', error))
 		})
 
 	}
