@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, TextInput, StyleSheet, Keyboard } from 'react-native';
 
 /* Import Components */
 import CenterMessage from '../messages/CenterMessage';
@@ -44,6 +44,8 @@ export default class City extends Component {
 		this.setState({
 			name: '',
 			description: ''
+		}, () => {
+			Keyboard.dismiss()
 		})
 	}
 

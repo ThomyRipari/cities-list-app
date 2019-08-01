@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Text } from 'react-native';
 import { createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation';
 
 /* Import Components */
 import Cities from './components/Cities/Cities';
 import City from './components/Cities/City';
 import AddCity from './components/AddCity/AddCity';
+
+const CitiesStackBottomStyles = {
+	fontSize: 16,
+	marginLeft: 45,
+	marginBottom: 2
+}
 
 const citiesNavigator = createStackNavigator({
 	Cities: { screen: Cities },
@@ -21,8 +27,33 @@ const citiesNavigator = createStackNavigator({
 
 const Tabs = createAppContainer(
 	createBottomTabNavigator({
-		CitiesStack: { screen: citiesNavigator },
-		AddCity: { screen: AddCity }
+		CitiesStack: { 
+			screen: citiesNavigator,
+
+			navigationOptions: ({navigation}) => {
+				return {tabBarLabel: () => {
+					if (navigation.state.routes[navigation.state.index].routeName === "City") {
+						return <Text style={CitiesStackBottomStyles}>{navigation.state.routes[navigation.state.index].params.city.city}</Text>
+					} else {
+						return <Text style={CitiesStackBottomStyles}>List of Cities</Text>
+					}
+				}}
+			}
+		},
+		AddCity: { 
+			screen: AddCity,
+
+			navigationOptions: {
+				tabBarLabel: "Add new Cities"
+			}
+		}
+	}, {
+		tabBarOptions: {
+			labelStyle: {
+				fontSize: 16,
+				color: '#000000'
+			}
+		}
 	})
 )
 
@@ -34,7 +65,7 @@ export default class App extends Component {
 	async componentDidMount() {
 		try {
 			const cities = await AsyncStorage.getItem('cities');
-			console.log(cities);
+
 			this.setState({
 				cities: JSON.parse(cities) || []
 			})
