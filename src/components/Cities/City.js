@@ -5,19 +5,6 @@ import { Text, View, TouchableOpacity, TextInput, StyleSheet, Keyboard } from 'r
 import CenterMessage from '../messages/CenterMessage';
 
 export default class City extends Component {
-	static navigationOptions = (props) => {
-		return {
-			title: props.navigation.state.params.city.city,
-
-			headerTitleStyle: {
-				fontSize: 20,
-				fontWeight: '400',
-				textAlign: 'center',
-				flex: 1
-			}
-		}
-	}
-
 	state = {
 		name: '',
 		description: ''

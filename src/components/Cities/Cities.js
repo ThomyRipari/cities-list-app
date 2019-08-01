@@ -5,18 +5,6 @@ import { Text, View, ScrollView, TouchableWithoutFeedback, StyleSheet } from 're
 import CenterMessage from '../messages/CenterMessage';
 
 export default class Cities extends Component {
-	static navigationOptions = {
-		title: 'Cities',
-
-		headerTitleStyle: {
-			color: 'white',
-			fontSize: 20,
-			fontWeight: '400',
-			textAlign: 'center',
-			flex: 1
-		}
-	}
-
 	viewCity = (city) => {
 		this.props.navigation.navigate('City', {city})
 	}

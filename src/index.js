@@ -14,13 +14,23 @@ const CitiesStackBottomStyles = {
 }
 
 const citiesNavigator = createStackNavigator({
-	Cities: { screen: Cities },
-	City: { screen: City }
+	Cities: { screen: Cities, navigationOptions: {title: 'Cities'} },
+	City: { screen: City, navigationOptions: ({navigation}) => {
+		return {title: navigation.state.params.city.city}
+	} }
 }, {
+	headerLayoutPreset: 'center',
 	defaultNavigationOptions: {
 		headerStyle: {
 			backgroundColor: '#e8075d'
 		},
+
+		headerTitleStyle: {
+			color: 'white',
+			fontSize: 20,
+			fontWeight: '400'
+		},
+
 		headerTintColor: '#fff'
 	}
 })
@@ -49,9 +59,11 @@ const Tabs = createAppContainer(
 		}
 	}, {
 		tabBarOptions: {
+			inactiveTintColor: '#000000',
+			activeTintColor: '#e8075d',
+
 			labelStyle: {
-				fontSize: 16,
-				color: '#000000'
+				fontSize: 16
 			}
 		}
 	})
