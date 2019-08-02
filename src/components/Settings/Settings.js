@@ -2,18 +2,27 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default class Settings extends Component {
+
+	goToDeleteCity = () => {
+		this.props.navigation.navigate('DeleteCity');
+	}
+
+	goToDeleteAllCities = () => {
+		this.props.navigation.navigate('DeleteAllCities');
+	}
+
 	render() {
 		return (
 			<View>
 				<Text style={styles.heading}>Cities List - Settings</Text>
 
-				<TouchableOpacity>
+				<TouchableOpacity onPress={() => this.goToDeleteCity()}>
 					<View style={styles.button}>
 						<Text style={styles.buttonText}>Delete a City</Text>
 					</View>
 				</TouchableOpacity>
 
-				<TouchableOpacity>
+				<TouchableOpacity onPress={() => this.goToDeleteAllCities()}>
 					<View style={styles.button}>
 						<Text style={styles.buttonText}>Delete the List of Cities</Text>
 					</View>

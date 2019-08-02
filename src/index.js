@@ -7,6 +7,8 @@ import Cities from './components/Cities/Cities';
 import City from './components/Cities/City';
 import AddCity from './components/AddCity/AddCity';
 import Settings from './components/Settings/Settings';
+import DeleteCity from './components/Settings/delete/DeleteCity';
+import DeleteAllCities from './components/Settings/delete/DeleteAllCities';
 
 const CitiesStackBottomStyles = {
 	fontSize: 16,
@@ -36,7 +38,10 @@ const citiesNavigator = createStackNavigator({
 })
 
 const settingsNavigator = createStackNavigator({
-	Settings: { screen: Settings, navigationOptions: {title: 'Settings'}}
+	Settings: { screen: Settings, navigationOptions: {title: 'Settings'}},
+	DeleteCity: { screen: DeleteCity, navigationOptions: {title: 'Delete City'}},
+	DeleteAllCities: { screen: DeleteAllCities, navigationOptions: {title: 'Delete All Cities'}}
+
 }, {
 	headerLayoutPreset: 'center',
 
