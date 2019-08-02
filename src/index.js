@@ -6,10 +6,11 @@ import { createStackNavigator, createAppContainer, createBottomTabNavigator } fr
 import Cities from './components/Cities/Cities';
 import City from './components/Cities/City';
 import AddCity from './components/AddCity/AddCity';
+import Settings from './components/Settings/Settings';
 
 const CitiesStackBottomStyles = {
 	fontSize: 16,
-	marginLeft: 45,
+	marginLeft: 30,
 	marginBottom: 2
 }
 
@@ -27,8 +28,25 @@ const citiesNavigator = createStackNavigator({
 
 		headerTitleStyle: {
 			color: 'white',
-			fontSize: 20,
-			fontWeight: '400'
+			fontSize: 20
+		},
+
+		headerTintColor: '#fff'
+	}
+})
+
+const settingsNavigator = createStackNavigator({
+	Settings: { screen: Settings, navigationOptions: {title: 'Settings'}}
+}, {
+	headerLayoutPreset: 'center',
+
+	defaultNavigationOptions: {
+		headerStyle: {
+			backgroundColor: '#b2b1b5'
+		},
+
+		headerTitleStyle: {
+			color: 'white'
 		},
 
 		headerTintColor: '#fff'
@@ -56,6 +74,15 @@ const Tabs = createAppContainer(
 			navigationOptions: {
 				tabBarLabel: "Add new Cities"
 			}
+		},
+
+		SettingsStack: {
+			screen: settingsNavigator,
+
+			navigationOptions: {
+				tabBarLabel: "Settings"
+			}
+
 		}
 	}, {
 		tabBarOptions: {
