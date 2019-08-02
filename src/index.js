@@ -152,9 +152,23 @@ export default class App extends Component {
 
 	}
 
+	deleteCity = (id) => {
+		const cityIndex = this.state.cities.findIndex(item => item.id === id);
+
+		const cities = [
+			...this.state.cities.slice(0, cityIndex),
+			...this.state.cities.slice(cityIndex + 1)
+		]
+
+		this.setState({cities}, () => {
+			AsyncStorage.setItem('cities', JSON.stringify(cities))
+		})
+
+	}
+
 	render() {
 		return (
-			<Tabs screenProps={{cities: this.state.cities, addCity: this.addCity, addLocation: this.addLocation}} />
+			<Tabs screenProps={{cities: this.state.cities, addCity: this.addCity, addLocation: this.addLocation, deleteCity: this.deleteCity}} />
 		)
 	}
 }
