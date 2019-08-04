@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { AsyncStorage, Text } from 'react-native';
+import { Text } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation';
 
 /* Import Components */
@@ -40,7 +41,7 @@ const citiesNavigator = createStackNavigator({
 const settingsNavigator = createStackNavigator({
 	Settings: { screen: Settings, navigationOptions: {title: 'Settings'}},
 	DeleteCity: { screen: DeleteCity, navigationOptions: {title: 'Delete City'}},
-	DeleteAllCities: { screen: DeleteAllCities, navigationOptions: {title: 'Delete All Cities'}}
+	DeleteAllCities: { screen: DeleteAllCities, navigationOptions: {title: 'Delete All Cities', header: null}}
 
 }, {
 	headerLayoutPreset: 'center',
@@ -166,9 +167,17 @@ export default class App extends Component {
 
 	}
 
+	deleteAllCities = () => {
+		const cities = [];
+
+		this.setState({cities}, () => {
+			AsyncStorage.setItem('cities', JSON.stringify(cities))
+		});
+	}
+
 	render() {
 		return (
-			<Tabs screenProps={{cities: this.state.cities, addCity: this.addCity, addLocation: this.addLocation, deleteCity: this.deleteCity}} />
+			<Tabs screenProps={{cities: this.state.cities, addCity: this.addCity, addLocation: this.addLocation, deleteCity: this.deleteCity, deleteAllCities: this.deleteAllCities}} />
 		)
 	}
 }

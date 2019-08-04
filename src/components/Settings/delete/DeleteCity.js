@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, Button, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 
 export default class DeleteCity extends Component {
-
 	state = {showModal: false, city: {}};
 
 	goToAddCity = () => {
@@ -14,9 +13,11 @@ export default class DeleteCity extends Component {
 	}
 
 	deleteCity = () => {
+		this.setState({showModal: false, city: {}});
+
 		this.props.screenProps.deleteCity(this.state.city.id);
 
-		this.setState({showModal: false, city: {}});
+		this.props.navigation.navigate('Settings');
 	}
 
 	render() {
@@ -51,7 +52,7 @@ export default class DeleteCity extends Component {
 						<View style={{flex: 1}}>
 							<Text style={styles.heading}>Are you sure you want to eliminate {this.state.city.city} and all its locations?</Text>
 
-							<View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', position: 'absolute', bottom: 60, left: 0}}>
+							<View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', position: 'absolute', bottom: 60}}>
 							    <View>
 							        <TouchableOpacity style={{backgroundColor: '#e8075d'}} onPress={() =>  this.setState({showModal: false, city: {}})}>
 							            <Text style={styles.modalsButtons}>CANCEL</Text>
