@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation';
@@ -102,82 +102,74 @@ const Tabs = createAppContainer(
 	})
 )
 
-export default class App extends Component {
-	state = {
+const App = () => {
+	const [ state, setState ] = useState({
 		cities: []
-	}
+	});
 
-	async componentDidMount() {
-		try {
-			const cities = await AsyncStorage.getItem('cities');
+	useEffect(() => {
+		(async function () {
+			try {
+				const cities = await AsyncStorage.getItem('cities');
+			
+				setState({cities: JSON.parse(cities) || []})
 
-			this.setState({
-				cities: JSON.parse(cities) || []
-			})
-		} catch (e) {
-			console.log('error: ', e);
-		}
-	}
+			} catch (e) {
+				console.log('error: ', e);
+			}				
+		})()
+	}, [])
 
-	addCity = (city) => {
-		const { cities } = this.state;
+
+	useEffect(() => {
+		AsyncStorage.setItem('cities', JSON.stringify(state.cities))
+
+		.then(() => console.log('Update the Storage'))
+		.catch((error) => console.log('Error: ', error))
+
+	})
+
+	const addCity = (city) => {
+		const { cities } = state;
 
 		cities.push(city);
 
-		AsyncStorage.setItem('cities', JSON.stringify(cities))
-
-		.then(() => console.log('CITIES STORED'))
-		.catch(error => console.log('error: ', error))
-
-		this.setState({cities});
+		setState(prev => ({...prev, cities: cities}));
 	}
 
-	addLocation = (location, city) => {
-		const cityIndex = this.state.cities.findIndex(item => item.id === city.id);
+	const addLocation = (location, city) => {
+		const cityIndex = state.cities.findIndex(item => item.id === city.id);
 
-		const cityToAddLocation = this.state.cities[cityIndex];
+		const cityToAddLocation = state.cities[cityIndex];
 		cityToAddLocation.locations.push(location);
 
 		const cities = [
-			...this.state.cities.slice(0, cityIndex),
+			...state.cities.slice(0, cityIndex),
 			cityToAddLocation,
-			...this.state.cities.slice(cityIndex + 1)
+			...state.cities.slice(cityIndex + 1)
 		]
 
-		this.setState({cities}, () => {
-			AsyncStorage.setItem('cities', JSON.stringify(cities))
-
-			.then(() => console.log('CITIES WITH NEW LOCATIONS STORED'))
-			.catch(error => console.log('error: ', error))
-		})
-
+		setState(prev => ({...prev, cities: cities}))
 	}
 
-	deleteCity = (id) => {
-		const cityIndex = this.state.cities.findIndex(item => item.id === id);
+	const deleteCity = (id) => {
+		const cityIndex = state.cities.findIndex(item => item.id === id);
 
 		const cities = [
-			...this.state.cities.slice(0, cityIndex),
-			...this.state.cities.slice(cityIndex + 1)
+			...state.cities.slice(0, cityIndex),
+			...state.cities.slice(cityIndex + 1)
 		]
 
-		this.setState({cities}, () => {
-			AsyncStorage.setItem('cities', JSON.stringify(cities))
-		})
-
+		setState(prev => ({...prev, cities: cities}))
 	}
 
-	deleteAllCities = () => {
-		const cities = [];
-
-		this.setState({cities}, () => {
-			AsyncStorage.setItem('cities', JSON.stringify(cities))
-		});
+	const deleteAllCities = () => {
+		setState(prev => ({...prev, cities: []}));
 	}
 
-	render() {
-		return (
-			<Tabs screenProps={{cities: this.state.cities, addCity: this.addCity, addLocation: this.addLocation, deleteCity: this.deleteCity, deleteAllCities: this.deleteAllCities}} />
-		)
-	}
+	return (
+		<Tabs screenProps={{cities: state.cities, addCity: addCity, addLocation: addLocation, deleteCity: deleteCity, deleteAllCities: deleteAllCities}} />
+	)
 }
+
+export default App;

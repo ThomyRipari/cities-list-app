@@ -5,6 +5,7 @@ import { Text, View, ScrollView, TouchableWithoutFeedback, StyleSheet } from 're
 import CenterMessage from '../messages/CenterMessage';
 
 export default class Cities extends Component {
+
 	viewCity = (city) => {
 		this.props.navigation.navigate('City', {city})
 	}
@@ -13,18 +14,21 @@ export default class Cities extends Component {
 		return (
 			<ScrollView>
 				<View>
-					{!this.props.screenProps.cities.length ? <CenterMessage message="You have not added cities" /> : null}
+					{!this.props.screenProps.cities.length ? 
 
-					{this.props.screenProps.cities.map((city, index) => (
-						<View key={index}>
-							<TouchableWithoutFeedback onPress={() => this.viewCity(city)}>
-								<View style={styles.cityContainer}>
-									<Text style={styles.city}>{city.city}</Text>
-									<Text style={styles.country}>{city.country}</Text>
-								</View>
-							</TouchableWithoutFeedback>
-						</View>
-					))}
+						<CenterMessage message="You have not added cities" /> 
+					: 
+						this.props.screenProps.cities.map((city, index) => (
+							<View key={index}>
+								<TouchableWithoutFeedback onPress={() => this.viewCity(city)}>
+									<View style={styles.cityContainer}>
+										<Text style={styles.city}>{city.city}</Text>
+										<Text style={styles.country}>{city.country}</Text>
+									</View>
+								</TouchableWithoutFeedback>
+							</View>
+						))
+					}
 					
 				</View>
 			</ScrollView>
