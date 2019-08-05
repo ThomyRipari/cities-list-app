@@ -1,36 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-export default class Settings extends Component {
+const Settings = (props) => {
 
-	goToDeleteCity = () => {
-		this.props.navigation.navigate('DeleteCity');
+	const goToDeleteCity = () => {
+		props.navigation.navigate('DeleteCity');
 	}
 
-	goToDeleteAllCities = () => {
-		this.props.navigation.navigate('DeleteAllCities');
+	const goToDeleteAllCities = () => {
+		props.navigation.navigate('DeleteAllCities');
 	}
 
-	render() {
-		return (
-			<View>
-				<Text style={styles.heading}>Cities List - Settings</Text>
+	return (
+		<View>
+			<Text style={styles.heading}>Cities List - Settings</Text>
 
-				<TouchableOpacity onPress={() => this.goToDeleteCity()}>
-					<View style={styles.button}>
-						<Text style={styles.buttonText}>Delete a City</Text>
-					</View>
-				</TouchableOpacity>
+			<TouchableOpacity onPress={() => goToDeleteCity()}>
+				<View style={styles.button}>
+					<Text style={styles.buttonText}>Delete a City</Text>
+				</View>
+			</TouchableOpacity>
 
-				<TouchableOpacity onPress={() => this.goToDeleteAllCities()}>
-					<View style={styles.button}>
-						<Text style={styles.buttonText}>Delete the List of Cities</Text>
-					</View>
-				</TouchableOpacity>
-			</View>
-		)
-	}
+			<TouchableOpacity onPress={() => goToDeleteAllCities()}>
+				<View style={styles.button}>
+					<Text style={styles.buttonText}>Delete the List of Cities</Text>
+				</View>
+			</TouchableOpacity>
+		</View>
+	)
 }
+
+export default Settings;
 
 const styles = StyleSheet.create({
 	heading: {

@@ -1,81 +1,69 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput, StyleSheet, Keyboard } from 'react-native';
 
 /* Import Components */
 import CenterMessage from '../messages/CenterMessage';
 
-export default class City extends Component {
-	state = {
+const City = (props) => {
+	const [ state, setState ] = useState({
 		name: '',
 		description: ''
-	}
+	})
 
-	onChangeText = (key, value) => {
-		this.setState({
-			[key]: value
-		})
-	}
+	const onSubmit = () => {
+		if (state.name === "" || state.description === "") return;
 
-	submit = () => {
-		if (this.state.name === "" || this.state.description === "") return
-
-		const { city } = this.props.navigation.state.params;
+		const { city } = props.navigation.state.params;
 
 		const location = {
-			name: this.state.name,
-			description: this.state.description
+			name: state.name,
+			description: state.description
 		}
 
-		this.props.screenProps.addLocation(location, city);
+		props.screenProps.addLocation(location, city);
 
-		this.setState({
-			name: '',
-			description: ''
-		}, () => {
-			Keyboard.dismiss()
-		})
+		setState(prev => ({...prev, name: '', description: ''}))
 	}
 
-	render() {
-		const { city } = this.props.navigation.state.params;
-		return (
-			<View style={{ flex: 1 }}>
+	return (
+		<View style={{ flex: 1 }}>
 
-				{!city.locations.length ? <CenterMessage message='No locations' /> : null}
+			{!props.navigation.state.params.city.locations.length ? <CenterMessage message='No locations' /> : null}
 
-				{city.locations.map((location, index) => (
-					<View style={styles.locationContainer} key={index}>
-						<Text style={styles.locationName}>{location.name}</Text>
-						<Text style={styles.locationDescription}>{location.description}</Text>
-					</View>
-				))}
-				<TextInput
-					placeholder="Add Location Name"
-					value={this.state.name}
-					style={styles.input}
-					placeholderTextColor='white'
-					onChangeText={text => this.onChangeText('name', text)}
-				/>
-				<TextInput
-					placeholder="Add Location Description"
-					value={this.state.description}
-					style={[styles.input, styles.input2]}
-					placeholderTextColor='white'
-					onChangeText={text => this.onChangeText('description', text)}
-				/>
-
-				<View style={styles.buttonContainer}>
-					<TouchableOpacity onPress={this.submit}>
-						<View style={styles.button}>
-							<Text style={styles.buttonText}>Add Location</Text>
-						</View>
-					</TouchableOpacity>
+			{props.navigation.state.params.city.locations.map((location, index) => (
+				<View style={styles.locationContainer} key={index}>
+					<Text style={styles.locationName}>{location.name}</Text>
+					<Text style={styles.locationDescription}>{location.description}</Text>
 				</View>
+			))}
+
+			<TextInput
+				placeholder="Add Location Name"
+				value={state.name}
+				style={styles.input}
+				placeholderTextColor='white'
+				onChangeText={text => setState(prev => ({...prev, name: text}))}
+			/>
+			<TextInput
+				placeholder="Add Location Description"
+				value={state.description}
+				style={[styles.input, styles.input2]}
+				placeholderTextColor='white'
+				onChangeText={text => setState(prev => ({...prev, description: text}))}
+			/>
+
+			<View style={styles.buttonContainer}>
+				<TouchableOpacity onPress={onSubmit}>
+					<View style={styles.button}>
+						<Text style={styles.buttonText}>Add Location</Text>
+					</View>
+				</TouchableOpacity>
 			</View>
-		)
-	}
+		</View>
+	)
 }
 
+export default City;
 
 const styles = StyleSheet.create({
 

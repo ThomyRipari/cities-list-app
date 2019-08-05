@@ -1,63 +1,56 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import uuidV4 from 'uuid/v4'
 
-export default class AddCity extends Component {
-	state = {
+const AddCity = (props) => {
+	const [ state, setState ] = useState({
 		city: '',
 		country: ''
-	}
+	})
 
-	onChangeText = (key, text) => {
-		this.setState({
-			[key]: text
-		})
-	}
-
-	submit = () => {
-		if (this.state.city === '' || this.state.country === '') return;
+	onSubmit = () => {
+		if (state.city === '' || state.country === '') return;
 
 		const city = {
-			city: this.state.city,
-			country: this.state.country,
+			city: state.city,
+			country: state.country,
 			locations: [],
 			id: uuidV4()
 		}
 
-		this.props.screenProps.addCity(city)
+		props.screenProps.addCity(city)
 
-		this.setState({city: '', country: ''}, () => { 
-			this.props.navigation.navigate('Cities')
-		})
+		setState(prev => ({...prev, city: '', country: ''}))
 
+		props.navigation.navigate('Cities')
 	}
 
-	render() {
-		return (
-			<View style={styles.container}>
-				<Text style={styles.heading}>Cities List App</Text>
-				<TextInput 
-					value={this.state.city}
-					style={styles.input}
-					placeholder="City name"
-					onChangeText={text => this.onChangeText('city', text)} 
-				/>
-				<TextInput
-					value={this.state.country}
-					style={styles.input}
-					placeholder="Country name"
-					onChangeText={text => this.onChangeText('country', text)} 
-				/>
+	return (
+		<View style={styles.container}>
+			<Text style={styles.heading}>Cities List App</Text>
+			<TextInput 
+				value={state.city}
+				style={styles.input}
+				placeholder="City name"
+				onChangeText={text => setState(prev => ({...prev, city: text}))} 
+			/>
+			<TextInput
+				value={state.country}
+				style={styles.input}
+				placeholder="Country name"
+				onChangeText={text => setState(prev => ({...prev, country: text}))} 
+			/>
 
-				<TouchableOpacity onPress={this.submit}>
-					<View style={styles.button}>
-						<Text style={styles.buttonText}>Add City</Text>
-					</View>
-				</TouchableOpacity>
-			</View>
-		)
-	}
+			<TouchableOpacity onPress={onSubmit}>
+				<View style={styles.button}>
+					<Text style={styles.buttonText}>Add City</Text>
+				</View>
+			</TouchableOpacity>
+		</View>
+	)
 }
+
+export default AddCity;
 
 const styles = StyleSheet.create({
 	input: {

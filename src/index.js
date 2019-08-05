@@ -127,7 +127,7 @@ const App = () => {
 		.then(() => console.log('Update the Storage'))
 		.catch((error) => console.log('Error: ', error))
 
-	})
+	}, [state])
 
 	const addCity = (city) => {
 		const { cities } = state;

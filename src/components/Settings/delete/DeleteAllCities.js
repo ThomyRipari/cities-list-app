@@ -1,65 +1,66 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Modal, StyleSheet, TouchableOpacity, Button } from 'react-native';
 
-export default class DeleteAllCities extends Component {
-	state = {showModal: true};
+const DeleteAllCities = (props) => {
+	const [ state, setState ] = useState({
+		showModal: true
+	})
 
-	closeModal = () => {
-		this.setState({showModal: false});
+	const closeModal = () => {
+		setState(prev => ({...prev, showModal: false}));
 
-		this.props.navigation.navigate('Settings');
+		props.navigation.navigate('Settings');
 	}
 
-	deleteAllCities = () => {
-		this.setState({showModal: false});
+	const deleteAllCities = () => {
+		setState(prev => ({...prev, showModal: false}));
 
-		this.props.screenProps.deleteAllCities();
+		props.screenProps.deleteAllCities();
 
-		this.props.navigation.navigate('Settings');
-		this.props.navigation.navigate('Cities');
+		props.navigation.navigate('Settings');
+		props.navigation.navigate('Cities');
 	}
 
-	goToAddCity = () => {
-		this.setState({showModal: false});
+	const goToAddCity = () => {
+		setState(prev => ({...prev, showModal: false}));
 
-		this.props.navigation.navigate('Settings');
-		this.props.navigation.navigate('AddCity');
+		props.navigation.navigate('Settings');
+		props.navigation.navigate('AddCity');
 	}
 
-	render() {
-		const { cities } = this.props.screenProps;
-		return (
-			<Modal transparent={false} visible={this.state.showModal} animationType="slide">
-				{!cities.length ?  
-					<View>
-						<Text style={styles.heading}>You haven't added cities yet</Text>
-						<Button title="GO TO ADD CITY" onPress={() => this.goToAddCity()} />
-					</View>
+	return (
+		<Modal transparent={false} visible={state.showModal} animationType="slide">
+			{!props.screenProps.cities.length ?  
+				<View>
+					<Text style={styles.heading}>You haven't added cities yet</Text>
+					<Button title="GO TO ADD CITY" onPress={() => goToAddCity()} />
+				</View>
 
-					:
+				:
 
-					<View style={{flex: 1}}>
-						<Text style={styles.heading}>Are you sure you want to remove all cities from the list?</Text>
+				<View style={{flex: 1}}>
+					<Text style={styles.heading}>Are you sure you want to remove all cities from the list?</Text>
 
-						<View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', position: 'absolute', bottom: 60}}>
-							<View>
-								<TouchableOpacity style={{backgroundColor: '#e8075d'}} onPress={() => this.closeModal()}>
-								    <Text style={styles.modalsButtons}>CANCEL</Text>
-								</TouchableOpacity>
-							</View>
-
-							<View>
-								<TouchableOpacity style={{backgroundColor: '#e8075d'}} onPress={() => this.deleteAllCities()}>
-								    <Text style={styles.modalsButtons}>DELETE</Text>
-								</TouchableOpacity>
-							</View>
+					<View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', position: 'absolute', bottom: 60}}>
+						<View>
+							<TouchableOpacity style={{backgroundColor: '#e8075d'}} onPress={() => closeModal()}>
+								<Text style={styles.modalsButtons}>CANCEL</Text>
+							</TouchableOpacity>
 						</View>
-					</View>						
-				}
-			</Modal>
-		)
-	}
+
+						<View>
+							<TouchableOpacity style={{backgroundColor: '#e8075d'}} onPress={() => deleteAllCities()}>
+								<Text style={styles.modalsButtons}>DELETE</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</View>						
+			}
+		</Modal>
+	)
 }
+
+export default DeleteAllCities;
 
 const styles = StyleSheet.create({
 	heading: {
